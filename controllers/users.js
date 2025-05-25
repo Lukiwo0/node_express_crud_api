@@ -47,3 +47,21 @@ export const updateUser = (req, res) => {
     res.status(404).send(`User with id ${id} not found`);
   }
 };
+
+export const replaceUser = (req, res) => {
+  const { id } = req.params;
+  const { username, age } = req.body;
+
+  const userIndex = users.findIndex(user => user.id === id);
+  if (userIndex === -1) {
+    return res.status(404).send(`User with id ${id} not found`);
+  }
+
+  if (!username || !age) {
+    return res.status(400).send("Missing required fields: username and age");
+  }
+
+  users[userIndex] = { id, username, age };
+  res.send(`User with id ${id} has been replaced.`);
+};
+
